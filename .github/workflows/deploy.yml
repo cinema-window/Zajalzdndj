@@ -31,27 +31,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Project with Environment Variables
-        run: |
-          # بناء المشروع مع إجبار المسار الأساسي ليتوافق مع مستودع جيت هاب
-          npx vite build --base=/Zajalzdndj/ || true
-        env:
-          VITE_SUPABASE_URL: "https://supabase.co"
-          VITE_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFweWtncmN1b2V0cXp6b2pmbndmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxODMyNTAsImV4cCI6MjEwMTc1OTI1MH0.l7_xt7zuMvF8pJTgeBzT4MtRmVQFz0CaNiX8ePf2-q0"
-          VITE_TMDB_API_KEY: "fea62da470cde92d5beb77af630a0854"
-          VITE_IMGBB_API_KEY: "e9e89619f148fc6d25c412c38bd47977"
-          VITE_TELEGRAM_BOT_TOKEN: "8828047234:AAGOy1wj7Q3ssFiMphKWn46lkUNlR7dblvE"
-          VITE_TELEGRAM_CHAT_ID: "7855747323"
-
-      - name: Ensure Fallback for Production
-        run: |
-          # في حال تعثر إنتاج بعض المسارات، نقوم بحقن ملف تشغيل يربط المكونات مباشرة
-          mkdir -p dist
-          if [ ! -f dist/index.html ]; then cp index.html dist/index.html; fi
-          sed -i 's/\/src/src/g' dist/index.html || true
-          cp -r src dist/src || true
-          cp -r public dist/public || true
-          cp package.json dist/package.json || true
+      - name: Build Project
+        run: npx vite build --base=/Zajalzdndj/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
